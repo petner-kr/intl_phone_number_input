@@ -99,7 +99,7 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
                 ],
               ),
               SizedBox(height: 10),
-              Divider(color: Color(0xFF9b8cff), height: 2),
+              Divider(color: Color(0xFF9b8cff), height: 4),
             ],
           ),
         ),
