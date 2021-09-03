@@ -24,8 +24,7 @@ class CountrySearchListWidget extends StatefulWidget {
   });
 
   @override
-  _CountrySearchListWidgetState createState() =>
-      _CountrySearchListWidgetState();
+  _CountrySearchListWidgetState createState() => _CountrySearchListWidgetState();
 }
 
 class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
@@ -51,8 +50,7 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
 
   /// Returns [InputDecoration] of the search box
   InputDecoration getSearchBoxDecoration() {
-    return widget.searchBoxDecoration ??
-        InputDecoration(labelText: 'Search by country name or dial code');
+    return widget.searchBoxDecoration ?? InputDecoration.collapsed(hintText: 'Search by country name or dial code');
   }
 
   @override
@@ -60,23 +58,38 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            key: Key(TestHelper.CountrySearchInputKeyValue),
-            decoration: getSearchBoxDecoration(),
-            controller: _searchController,
-            autofocus: widget.autoFocus,
-            onChanged: (value) {
-              final String value = _searchController.text.trim();
-              return setState(
-                () => filteredCountries = Utils.filterCountries(
-                  countries: widget.countries,
-                  locale: widget.locale,
-                  value: value,
-                ),
-              );
-            },
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.search, size: 20, color: Color(0xFF9b8cff)),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: TextFormField(
+                      key: Key(TestHelper.CountrySearchInputKeyValue),
+                      decoration: getSearchBoxDecoration(),
+                      cursorColor: Color(0xFF9b8cff),
+                      controller: _searchController,
+                      autofocus: widget.autoFocus,
+                      onChanged: (value) {
+                        final String value = _searchController.text.trim();
+                        return setState(
+                          () => filteredCountries = Utils.filterCountries(
+                            countries: widget.countries,
+                            locale: widget.locale,
+                            value: value,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Divider(color: Color(0xFF9b8cff), height: 2),
+            ],
           ),
         ),
         Flexible(
@@ -86,7 +99,6 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
             itemCount: filteredCountries.length,
             itemBuilder: (BuildContext context, int index) {
               Country country = filteredCountries[index];
-
               return DirectionalCountryListTile(
                 country: country,
                 locale: widget.locale,
@@ -147,6 +159,47 @@ class DirectionalCountryListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+      child: Row(
+        children: [
+          if (showFlags) _Flag(country: country, useEmoji: useEmoji),
+          SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${Utils.getCountryName(country, locale)}',
+                textDirection: Directionality.of(context),
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontFamily: 'Pretendard',
+                  color: Color(0xFF101010),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  fontStyle: FontStyle.normal,
+                  letterSpacing: -0.4,
+                ),
+              ),
+              Text(
+                '${country.dialCode ?? ''}',
+                textDirection: TextDirection.ltr,
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontFamily: 'Pretendard',
+                  color: Color(0xFFafafbb),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  fontStyle: FontStyle.normal,
+                  letterSpacing: -0.4,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
     return ListTile(
       key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
       leading: (showFlags ? _Flag(country: country, useEmoji: useEmoji) : null),

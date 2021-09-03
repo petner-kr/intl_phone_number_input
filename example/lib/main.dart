@@ -15,12 +15,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          appBar: AppBar(title: Text('Demo')),
-          body: MyHomePage(),
-        ),
+      home: Scaffold(
+        appBar: AppBar(title: Text('Demo')),
+        body: MyHomePage(),
       ),
     );
   }
@@ -46,28 +43,41 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            InternationalPhoneNumberInput(
-              onInputChanged: (PhoneNumber number) {
-                print(number.phoneNumber);
-              },
-              onInputValidated: (bool value) {
-                print(value);
-              },
-              selectorConfig: SelectorConfig(
-                selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child: InternationalPhoneNumberInput(
+                onInputChanged: (PhoneNumber number) {
+                  setState(() {});
+                },
+                onInputValidated: (bool value) {},
+                selectorConfig: SelectorConfig(
+                  selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                ),
+                ignoreBlank: false,
+                autoValidateMode: AutovalidateMode.disabled,
+                selectorTextStyle: TextStyle(
+                  color: Colors.black,
+                  fontFamily: "Pretendard",
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.normal,
+                  letterSpacing: -0.4,
+                ),
+                initialValue: number,
+                textFieldController: controller,
+                formatInput: false,
+                keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                inputBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                hintText: "휴대폰 번호 (- 없이 숫자만 입력)",
+                textStyle: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                ),
+                onSaved: (number) async {},
               ),
-              ignoreBlank: false,
-              autoValidateMode: AutovalidateMode.disabled,
-              selectorTextStyle: TextStyle(color: Colors.black),
-              initialValue: number,
-              textFieldController: controller,
-              formatInput: false,
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: true, decimal: true),
-              inputBorder: OutlineInputBorder(),
-              onSaved: (PhoneNumber number) {
-                print('On Saved: $number');
-              },
             ),
             ElevatedButton(
               onPressed: () {
@@ -94,8 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void getPhoneNumber(String phoneNumber) async {
-    PhoneNumber number =
-        await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
+    PhoneNumber number = await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
 
     setState(() {
       this.number = number;

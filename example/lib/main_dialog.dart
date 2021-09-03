@@ -36,20 +36,26 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            InternationalPhoneNumberInput(
-              onInputChanged: (PhoneNumber number) {
-                print(number.phoneNumber);
-              },
-              onInputValidated: (bool value) {
-                print(value);
-              },
-              ignoreBlank: true,
-              autoValidateMode: AutovalidateMode.disabled,
-              initialValue: PhoneNumber(isoCode: 'NG'),
-              textFieldController: controller,
-              inputBorder: OutlineInputBorder(),
-              selectorConfig: SelectorConfig(
-                selectorType: PhoneInputSelectorType.DIALOG,
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child: InternationalPhoneNumberInput(
+                onInputChanged: (PhoneNumber number) {
+                  setState(() {});
+                },
+                onInputValidated: (bool value) {},
+                selectorConfig: SelectorConfig(
+                  selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                ),
+                ignoreBlank: false,
+                autoValidateMode: AutovalidateMode.disabled,
+                selectorTextStyle: TextStyle(color: Colors.black),
+                textFieldController: controller,
+                formatInput: false,
+                keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                inputBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                onSaved: (number) async {},
               ),
             ),
             ElevatedButton(
@@ -71,8 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void getPhoneNumber(String phoneNumber) async {
-    PhoneNumber number =
-        await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
+    PhoneNumber number = await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
 
     String parsableNumber = await PhoneNumber.getParsableNumber(number);
     controller.text = parsableNumber;
