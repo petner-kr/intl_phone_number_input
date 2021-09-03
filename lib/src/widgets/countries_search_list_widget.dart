@@ -50,7 +50,18 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
 
   /// Returns [InputDecoration] of the search box
   InputDecoration getSearchBoxDecoration() {
-    return widget.searchBoxDecoration ?? InputDecoration.collapsed(hintText: 'Search by country name or dial code');
+    return widget.searchBoxDecoration ??
+        InputDecoration.collapsed(
+          hintText: 'Search by country name or dial code',
+          hintStyle: TextStyle(
+            fontFamily: 'Pretendard',
+            color: Color(0xFFafafbb),
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            fontStyle: FontStyle.normal,
+            letterSpacing: -0.4,
+          ),
+        );
   }
 
   @override
