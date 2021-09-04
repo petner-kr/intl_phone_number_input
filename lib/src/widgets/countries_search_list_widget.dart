@@ -175,6 +175,7 @@ class DirectionalCountryListTile extends StatelessWidget {
       child: Container(
         key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+        width: double.infinity,
         child: Row(
           children: [
             if (showFlags) _Flag(country: country, useEmoji: useEmoji),
