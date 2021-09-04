@@ -99,7 +99,7 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
                 ],
               ),
               SizedBox(height: 10),
-              Divider(color: Color(0xFF9b8cff), height: 4),
+              Divider(color: Color(0xFF9b8cff), height: 8),
             ],
           ),
         ),
@@ -176,7 +176,7 @@ class DirectionalCountryListTile extends StatelessWidget {
       child: Row(
         children: [
           if (showFlags) _Flag(country: country, useEmoji: useEmoji),
-          SizedBox(width: 16),
+          SizedBox(width: 18),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -193,6 +193,7 @@ class DirectionalCountryListTile extends StatelessWidget {
                   letterSpacing: -0.4,
                 ),
               ),
+              SizedBox(height: 4),
               Text(
                 '${country.dialCode ?? ''}',
                 textDirection: TextDirection.ltr,
