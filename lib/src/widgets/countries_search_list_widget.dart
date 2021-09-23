@@ -99,7 +99,7 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
                 ],
               ),
               SizedBox(height: 10),
-              Divider(color: Color(0xFF9b8cff), height: 4),
+              Divider(color: Color(0xFF9b8cff), height: 8),
             ],
           ),
         ),
@@ -170,67 +170,50 @@ class DirectionalCountryListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 28),
-      child: Row(
-        children: [
-          if (showFlags) _Flag(country: country, useEmoji: useEmoji),
-          SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${Utils.getCountryName(country, locale)}',
-                textDirection: Directionality.of(context),
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontFamily: 'Pretendard',
-                  color: Color(0xFF101010),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  letterSpacing: -0.4,
-                ),
-              ),
-              Text(
-                '${country.dialCode ?? ''}',
-                textDirection: TextDirection.ltr,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontFamily: 'Pretendard',
-                  color: Color(0xFFafafbb),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  letterSpacing: -0.4,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-    return ListTile(
-      key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
-      leading: (showFlags ? _Flag(country: country, useEmoji: useEmoji) : null),
-      title: Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: Text(
-          '${Utils.getCountryName(country, locale)}',
-          textDirection: Directionality.of(context),
-          textAlign: TextAlign.start,
-        ),
-      ),
-      subtitle: Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: Text(
-          '${country.dialCode ?? ''}',
-          textDirection: TextDirection.ltr,
-          textAlign: TextAlign.start,
-        ),
-      ),
+    return InkWell(
       onTap: () => Navigator.of(context).pop(country),
+      child: Container(
+        key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+        child: Row(
+          children: [
+            if (showFlags) _Flag(country: country, useEmoji: useEmoji),
+            SizedBox(width: 18),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${Utils.getCountryName(country, locale)}',
+                  textDirection: Directionality.of(context),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontFamily: 'Pretendard',
+                    color: Color(0xFF101010),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    fontStyle: FontStyle.normal,
+                    letterSpacing: -0.4,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  '${country.dialCode ?? ''}',
+                  textDirection: TextDirection.ltr,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontFamily: 'Pretendard',
+                    color: Color(0xFFafafbb),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    fontStyle: FontStyle.normal,
+                    letterSpacing: -0.4,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
